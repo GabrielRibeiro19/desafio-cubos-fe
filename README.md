@@ -48,7 +48,7 @@ Uma plataforma moderna para gerenciamento de catálogo de filmes, com funcionali
 ### 1. Clone o repositório
 
 ```bash
-git clone https://github.com/seu-usuario/desafio-cubos-fe.git
+git clone https://github.com/GabrielRibeiro19/desafio-cubos-fe.git
 cd desafio-cubos-fe
 ```
 
