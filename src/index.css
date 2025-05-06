@@ -1,11 +1,60 @@
 @import "tailwindcss";
 
+@theme {
+  /* Definições de cores para tema escuro e claro */
+
+  /* Cores gerais (escuro é padrão) */
+  --color-dark-bg: #121113;
+  --color-dark-card: #1C1C1E;
+  --color-dark-card2: #232225;
+  --color-dark-overlay: #12111380;
+  --color-dark-input: #1A191B;
+  --color-dark-text: #FFFFFF;
+  --color-dark-text2: #EEEEF0;
+  --color-dark-text3: #B4B4B4;
+  --color-dark-muted: #B5B2BC;
+  --color-dark-border: #3C393F;
+  --color-dark-primary: #8E4EC6;
+  --color-dark-primary-hover: #9A5CD0;
+  --color-dark-primary-focus: #8457AA;
+  --color-dark-secondary: #B744F714;
+  --color-dark-secondary-hover: #C150FF2E;
+  --color-dark-secondary-focus: #B412F90A;
+  --color-dark-disabled: #6F6D78;
+
+  /* Cores claras */
+  --color-light-bg: #F4F4F5;
+  --color-light-card: #FFFFFF;
+  --color-light-card2: #F9F9FA;
+  --color-light-overlay: #F4F4F580;
+  --color-light-input: #F9F9FA;
+  --color-light-text: #121113;
+  --color-light-text2: #1C1C1E;
+  --color-light-text3: #6F6D78;
+  --color-light-muted: #71717A;
+  --color-light-border: #E4E4E7;
+  --color-light-primary: #8E4EC6;
+  --color-light-primary-hover: #9A5CD0;
+  --color-light-primary-focus: #8457AA;
+  --color-light-secondary: #F4EBFF;
+  --color-light-secondary-hover: #EADBFC;
+  --color-light-secondary-focus: #E0D0F5;
+  --color-light-disabled: #D4D4D8;
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   -webkit-font-smoothing: antialiased;
   font-family: 'Inter', sans-serif;
 }
 
 body {
-  background-color: #121113;
+  @apply bg-light-bg text-light-text dark:bg-dark-bg dark:text-dark-text;
   font-family: 'Inter', sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.transition-theme {
+  @apply transition-all duration-300 ease-in-out;
 }

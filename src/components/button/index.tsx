@@ -1,39 +1,48 @@
 import { ReactNode } from "react";
 
 interface ButtonProps {
-  type?: 'button' | 'submit' | 'reset';
+  type?: "button" | "submit" | "reset";
   disabled?: boolean;
-  variant?: 'primary' | 'secondary';
+  variant?: "primary" | "secondary";
   text: string | ReactNode;
-  className?: string; // Adicione esta linha
+  className?: string;
+  onClick?: () => void;
+  "aria-label"?: string;
 }
 
-const getButtonClasses = (variant: 'primary' | 'secondary', disabled: boolean) => {
+const getButtonClasses = (
+  variant: "primary" | "secondary",
+  disabled: boolean,
+) => {
   if (disabled) {
-    return variant === 'primary'
-      ? 'bg-[#6F6D78] cursor-not-allowed'
-      : 'bg-[#EBEAF814] cursor-not-allowed';
+    return variant === "primary"
+      ? "bg-light-disabled dark:bg-dark-disabled cursor-not-allowed"
+      : "bg-[#EBEAF814] dark:bg-dark-secondary cursor-not-allowed";
   }
 
-  return variant === 'primary'
-    ? 'bg-[#8E4EC6] cursor-pointer hover:bg-[#9A5CD0] focus:bg-[#8457AA]'
-    : 'bg-[#B744F714] cursor-pointer hover:bg-[#C150FF2E] focus:bg-[#B412F90A]';
+  return variant === "primary"
+    ? "bg-light-primary dark:bg-dark-primary hover:bg-light-primaryHover dark:hover:bg-dark-primaryHover focus:bg-light-primaryFocus dark:focus:bg-dark-primaryFocus cursor-pointer"
+    : "bg-light-secondary dark:bg-dark-secondary hover:bg-light-secondaryHover dark:hover:bg-dark-secondaryHover focus:bg-light-secondaryFocus dark:focus:bg-dark-secondaryFocus cursor-pointer";
 };
 
 export function Button({
-  type = 'button',
+  type = "button",
   disabled = false,
-  variant = 'primary',
+  variant = "primary",
   text,
-  className = "", // Adicione aqui também
+  className = "",
+  onClick,
+  "aria-label": ariaLabel,
 }: ButtonProps) {
   const buttonClasses = getButtonClasses(variant, disabled);
 
   return (
     <button
-      className={`py-3 px-5 rounded-[2px] text-white font-medium transition-all duration-200 focus:outline-none ${buttonClasses} ${className}`}
+      className={`py-3 px-5 rounded-[2px] text-black dark:text-dark-text font-medium transition-all duration-200 focus:outline-none ${buttonClasses} ${className} transition-theme`}
       type={type}
       disabled={disabled}
+      onClick={onClick}
+      aria-label={ariaLabel}
     >
       {text}
     </button>

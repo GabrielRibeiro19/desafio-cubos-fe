@@ -1,4 +1,9 @@
+import { useTheme } from "../../contexts/ThemeContext";
+
 export function Background() {
+  const { theme } = useTheme();
+    const isDarkTheme = theme === "dark";
+
   return (
     <div className="fixed top-0 left-0 w-full h-[50vh] -z-10 pointer-events-none select-none">
       <img
@@ -8,10 +13,12 @@ export function Background() {
       />
       {/* Gradiente cobre toda a imagem, de baixo (escuro) para cima (transparente) */}
       <div
-        className="absolute left-0 top-0 w-full h-full"
+        className="absolute left-0 top-0 w-full h-full transition-theme"
         style={{
           background:
-            "linear-gradient(to top, #121113 0%, rgba(18,17,19,0.7) 100%)",
+            isDarkTheme
+              ? "linear-gradient(to top, rgb(18 17 19), rgba(18, 17, 19, 0.7))"
+              :  "linear-gradient(to top, rgb(244 244 245), rgba(244, 244, 245, 0.7))",
         }}
       />
     </div>
