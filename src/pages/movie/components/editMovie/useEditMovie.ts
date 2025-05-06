@@ -30,7 +30,10 @@ const updateMovieSchema = z.object({
   budget: z.coerce.number().min(0, "O orçamento deve ser maior ou igual a 0"),
   revenue: z.coerce.number().min(0, "A receita deve ser maior ou igual a 0"),
   profit: z.coerce.number().min(0, "O lucro deve ser maior ou igual a 0"),
-  duration: z.string().min(1, "A duração é obrigatória"),
+  duration: z.coerce
+  .number()
+  .min(0, "A duração deve ser maior ou igual a 0")
+  .max(1000, "A duração deve ser menor ou igual a 1000"),
   genre_ids: z.array(z.string()).min(1, "Selecione pelo menos um gênero"),
 });
 
@@ -132,7 +135,7 @@ export function useEditMovie(
         formData.append("budget", String(data.budget));
         formData.append("revenue", String(data.revenue));
         formData.append("profit", String(data.profit));
-        formData.append("duration", data.duration);
+        formData.append("duration", data.duration.toString());
       }
 
       // Add genre IDs

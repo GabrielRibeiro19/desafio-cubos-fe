@@ -1,40 +1,14 @@
-// src/contexts/AuthContex.tsx
 import { destroyCookie, parseCookies, setCookie } from "nookies";
-import {
-  Dispatch,
-  ReactNode,
-  SetStateAction,
-  createContext,
-  useEffect,
-  useState,
-} from "react";
+import { createContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { api } from "../services/apiClient";
-
-type User = {
-  name: string;
-  email: string;
-  isAdmin: boolean;
-};
-
-type SignInCredentials = {
-  password: string;
-  email: string;
-};
-
-type AuthContextData = {
-  signIn: (credentials: SignInCredentials) => Promise<boolean>;
-  signOut: () => void;
-  user: User | undefined;
-  isAuthenticated: boolean;
-  setUser: Dispatch<SetStateAction<User | undefined>>;
-  authChecked: boolean; // Novo estado para controlar se a verificação foi concluída
-};
-
-type AuthProviderProps = {
-  children: ReactNode;
-};
+import {
+  AuthContextData,
+  AuthProviderProps,
+  SignInCredentials,
+  User,
+} from "./types";
 
 export const AuthContext = createContext({} as AuthContextData);
 
@@ -42,8 +16,6 @@ let authChannel: BroadcastChannel;
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const navigate = useNavigate();
-  const location = useLocation();
-  const pathname = location.pathname;
 
   const [user, setUser] = useState<User>();
   const [authChecked, setAuthChecked] = useState(false); // Novo estado
@@ -82,14 +54,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
     if (data) {
       try {
         const { user } = JSON.parse(data);
-        setUser({ name: user.name, email: user.email, isAdmin: user.isAdmin });
+        setUser({ name: user.name, email: user.email });
       } catch (error) {
         console.error("Error parsing user data", error);
         destroyCookie(null, "desafiocubos.data", { path: "/" });
       }
     }
 
-    // Marcar a verificação como concluída, independentemente do resultado
     setAuthChecked(true);
   }, []);
 
@@ -122,7 +93,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
       setUser({
         name: user.name,
         email: user.email,
-        isAdmin: user.isAdmin,
       });
 
       if (parseCookies()["desafiocubos.token"]) {
